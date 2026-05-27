@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Yassine Hakam — Data Science & Machine Learning</title>
+<meta name="description" content="Portfolio de Yassine Hakam, étudiant en Master IA & Big Data à l'ESIEE-IT. Projets Data Science et Machine Learning de bout en bout." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ===== TOKENS ===== */
+:root {
+  --bg-base:        #0A0D14;
+  --bg-surface:     #111827;
+  --bg-elevated:    #1A2235;
+  --accent-cyan:    #22D3EE;
+  --accent-indigo:  #6366F1;
+  --text-primary:   #F1F5F9;
+  --text-secondary: #94A3B8;
+  --border:         #1E293B;
+  --border-hover:   #22D3EE;
+
+  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "DM Sans", ui-sans-serif, sans-serif;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: 0.25s ease;
+
+  --container: 1200px;
+  --gutter: clamp(20px, 4vw, 48px);
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--accent-cyan); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { font: inherit; cursor: pointer; }
+:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ===== NAV ===== */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 13, 20, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+.nav-logo {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--accent-cyan);
+  letter-spacing: 0.05em;
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-links a {
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.nav-links a:hover { color: var(--text-primary); }
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+.nav-toggle svg { width: 20px; height: 20px; }
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  padding: clamp(80px, 14vh, 140px) 0 clamp(80px, 12vh, 120px);
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 50% 30%, rgba(34, 211, 238, 0.08), transparent 70%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'><circle cx='1' cy='1' r='1' fill='%23F1F5F9' fill-opacity='0.06'/></svg>");
+  background-repeat: no-repeat, repeat;
+  background-position: center top, top left;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-inner { position: relative; z-index: 1; max-width: 920px; }
+.hero .badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  background: rgba(34, 211, 238, 0.10);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 32px;
+}
+.hero .badge-status .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 10px var(--accent-cyan);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.hero h1 {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: clamp(40px, 7vw, 76px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin: 0 0 24px;
+  min-height: 1.05em;
+}
+.hero h1 .cursor {
+  display: inline-block;
+  width: 0.55ch;
+  background: var(--accent-cyan);
+  color: transparent;
+  margin-left: 2px;
+  animation: blink 1s steps(1) infinite;
+  border-radius: 2px;
+  vertical-align: baseline;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.hero .subtitle {
+  font-family: var(--font-sans);
+  color: var(--text-secondary);
+  font-size: clamp(15px, 1.6vw, 17px);
+  margin: 0 0 28px;
+}
+.hero .subtitle .sep { color: var(--border); margin: 0 8px; }
+.hero .lede {
+  color: var(--text-primary);
+  font-size: clamp(17px, 1.9vw, 20px);
+  line-height: 1.55;
+  max-width: 720px;
+  margin: 0 0 32px;
+  text-wrap: pretty;
+}
+.hero .stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+.hero .cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  transition: background var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--accent-cyan);
+  color: #0A0D14;
+}
+.btn-primary:hover {
+  background: #67e8f9;
+  text-decoration: none;
+  box-shadow: 0 0 24px rgba(34, 211, 238, 0.35);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+}
+.btn-outline:hover {
+  background: rgba(34, 211, 238, 0.10);
+  text-decoration: none;
+}
+.btn .arrow { transition: transform var(--transition); }
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* ===== SECTION ===== */
+section { padding: clamp(72px, 11vw, 120px) 0; }
+.section-head { margin-bottom: 48px; max-width: 720px; }
+.section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-eyebrow::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--accent-cyan);
+}
+.section-title {
+  font-family: var(--font-mono);
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 500;
+  margin: 0 0 14px;
+  color: #fff;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+.section-sub {
+  color: var(--text-secondary);
+  font-size: clamp(15px, 1.6vw, 17px);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+/* ===== CARD BASE ===== */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+.card:hover {
+  border-color: var(--border-hover);
+  box-shadow: 0 0 24px rgba(34, 211, 238, 0.07);
+}
+
+/* ===== ABOUT ===== */
+.about-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 56px;
+  align-items: start;
+}
+.about-text p {
+  color: var(--text-secondary);
+  font-size: 16.5px;
+  line-height: 1.7;
+  margin: 0 0 18px;
+  text-wrap: pretty;
+}
+.about-text p:last-child { margin-bottom: 0; }
+.about-text strong { color: var(--text-primary); font-weight: 500; }
+.metric-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.metric {
+  padding: 22px 20px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color var(--transition), background var(--transition);
+}
+.metric:hover { border-color: var(--border-hover); background: var(--bg-elevated); }
+.metric-value {
+  font-family: var(--font-mono);
+  font-size: clamp(24px, 2.8vw, 32px);
+  color: var(--accent-cyan);
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.metric-label {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin-top: 10px;
+  line-height: 1.4;
+}
+
+/* ===== PROJECTS ===== */
+.project {
+  margin-bottom: 32px;
+  padding: clamp(24px, 3vw, 36px);
+  display: grid;
+  gap: clamp(24px, 3vw, 40px);
+  align-items: stretch;
+}
+.project:last-child { margin-bottom: 0; }
+
+/* Stacked full-width layout */
+.project {
+  grid-template-columns: 1fr;
+}
+
+.project-visual {
+  position: relative;
+  background: var(--bg-base);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  display: block;
+}
+
+
+.project-visual .visual-art {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image:
+    linear-gradient(rgba(34,211,238,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,211,238,0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: -1px -1px;
+}
+.project-visual .visual-label {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(34, 211, 238, 0.12);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+}
+.project-visual .placeholder-note {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+/* Project content */
+.project-content { display: flex; flex-direction: column; gap: 20px; }
+.project-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+.badge {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-weight: 500;
+}
+.badge-indigo {
+  background: rgba(99, 102, 241, 0.14);
+  color: #a5a8ff;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+.badge-cyan {
+  background: rgba(34, 211, 238, 0.12);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+}
+.project-title {
+  font-family: var(--font-mono);
+  font-size: clamp(22px, 2.6vw, 28px);
+  font-weight: 500;
+  margin: 0;
+  color: #fff;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.project-tagline {
+  color: var(--text-secondary);
+  font-size: 15.5px;
+  margin: -6px 0 0;
+  line-height: 1.5;
+}
+.tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+.project-desc {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0;
+  text-wrap: pretty;
+}
+.bullets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 7px;
+}
+.bullets li {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.55;
+  padding-left: 20px;
+  position: relative;
+  font-family: var(--font-sans);
+}
+.bullets li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+}
+.bullets li ul { list-style: none; padding: 6px 0 0 16px; display: grid; gap: 4px; }
+.bullets li ul li { font-size: 13px; padding-left: 14px; }
+.bullets li ul li::before { content: "·"; color: var(--text-secondary); }
+
+.project-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 4px;
+}
+.project-metrics.three { grid-template-columns: repeat(3, 1fr); }
+.metric-tile {
+  padding: 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.metric-tile .label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.metric-tile .value {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: var(--text-primary);
+  margin-top: 6px;
+  letter-spacing: -0.01em;
+}
+.metric-tile.highlight .value { color: var(--accent-cyan); }
+
+.callout-result {
+  padding: 18px 20px;
+  background: linear-gradient(90deg, rgba(34,211,238,0.08), rgba(34,211,238,0.02));
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  border-left: 3px solid var(--accent-cyan);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.callout-result .head {
+  font-family: var(--font-mono);
+  color: var(--accent-cyan);
+  font-size: 13px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.callout-impact {
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.015);
+  border-left: 2px solid var(--accent-cyan);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--text-secondary);
+  font-style: italic;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+/* SVG visuals */
+.viz-curve, .viz-radar {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+}
+
+/* ===== SKILLS ===== */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.skill-card { padding: 24px; }
+.skill-card h3 {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--accent-cyan);
+  margin: 0 0 16px;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.skill-card h3::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: var(--accent-cyan);
+  border-radius: 50%;
+}
+.skill-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.skill-list li {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 4px 0;
+  border-bottom: 1px dashed transparent;
+}
+
+/* ===== METHODOLOGY ===== */
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  position: relative;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border) 10%, var(--border) 90%, transparent);
+  z-index: 0;
+}
+.step {
+  position: relative;
+  z-index: 1;
+  text-align: left;
+  padding: 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color var(--transition), background var(--transition);
+}
+.step:hover { border-color: var(--border-hover); }
+.step-num {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bg-base);
+  border: 1px solid var(--accent-cyan);
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.step-label {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* ===== EDUCATION ===== */
+.edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.edu-card { padding: 28px; }
+.edu-card h3 {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0 0 20px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.edu-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.edu-item:last-child { border-bottom: none; }
+.edu-item .ico {
+  flex: 0 0 22px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  margin-top: 2px;
+}
+.edu-logo {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+.edu-logo img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.edu-logo svg { width: 40px; height: 40px; display: block; }
+.edu-badge {
+  display: inline-flex;
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.edu-status-done   { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+.edu-status-prog   { background: rgba(34,211,238,0.10); color: var(--accent-cyan); border: 1px solid rgba(34,211,238,0.25); }
+.edu-status-target { background: rgba(99,102,241,0.14); color: #a5a8ff; border: 1px solid rgba(99,102,241,0.30); }
+.edu-item .body { flex: 1; }
+.edu-item .name {
+  color: var(--text-primary);
+  font-size: 14.5px;
+  line-height: 1.4;
+}
+.edu-item .meta {
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-family: var(--font-mono);
+  margin-top: 4px;
+}
+
+/* ===== CONTACT ===== */
+.contact-card {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(36px, 5vw, 56px);
+  text-align: center;
+}
+.contact-card .section-title { margin-bottom: 14px; }
+.contact-card .section-sub { margin: 0 auto 36px; max-width: 540px; }
+.contact-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.contact-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: border-color var(--transition), color var(--transition), background var(--transition);
+}
+.contact-link:hover {
+  border-color: var(--border-hover);
+  color: var(--accent-cyan);
+  text-decoration: none;
+  background: var(--bg-surface);
+}
+.contact-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+/* ===== FOOTER ===== */
+.footer {
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.footer-text {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  margin: 0 0 8px;
+}
+.footer-links {
+  display: inline-flex;
+  gap: 18px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.footer-links a { color: var(--text-secondary); }
+.footer-links a:hover { color: var(--accent-cyan); text-decoration: none; }
+
+/* ===== REVEAL ANIMATION ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .hero .badge-status .dot { animation: none; }
+  .hero h1 .cursor { animation: none; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .skills-grid { grid-template-columns: repeat(2, 1fr); }
+  .timeline { grid-template-columns: repeat(2, 1fr); }
+  .timeline::before { display: none; }
+}
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0; right: 0;
+    flex-direction: column;
+    background: rgba(10, 13, 20, 0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 18px var(--gutter);
+    gap: 18px;
+  }
+  .nav-links.open { display: flex; }
+  .nav-toggle { display: inline-flex; }
+  .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .metric-grid { grid-template-columns: 1fr 1fr; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .timeline { grid-template-columns: 1fr; }
+  .edu-grid { grid-template-columns: 1fr; }
+  .contact-links { grid-template-columns: 1fr; }
+  .project-metrics, .project-metrics.three { grid-template-columns: 1fr 1fr; }
+  .hero .cta-row { flex-direction: column; align-items: stretch; }
+  .hero .cta-row .btn { justify-content: center; }
+}
+@media (max-width: 480px) {
+  .metric-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body data-screen-label="Portfolio">
+
+<!-- ===== NAV ===== -->
+<nav class="nav" aria-label="Navigation principale">
+  <div class="container nav-inner">
+    <a href="#top" class="nav-logo" aria-label="Yassine Hakam — Accueil">YH<span style="color:var(--text-secondary)">_</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">À propos</a></li>
+      <li><a href="#projects">Projets</a></li>
+      <li><a href="#skills">Compétences</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <line x1="3" y1="7" x2="21" y2="7"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="17" x2="21" y2="17"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero" id="top">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="container hero-inner">
+    <div class="badge-status reveal">
+      <span class="dot" aria-hidden="true"></span>
+      Data Scientist en alternance — IA &amp; Big Data · ESIEE-IT
+    </div>
+    <h1><span id="typewriter" aria-label="Yassine Hakam">&nbsp;</span><span class="cursor" aria-hidden="true">|</span></h1>
+    <p class="subtitle reveal">
+      Étudiant en Master IA &amp; Big Data
+      <span class="sep">·</span>
+      Data Science &amp; Machine Learning
+      <span class="sep">·</span>
+      ESIEE-IT
+    </p>
+    <p class="lede reveal">
+      Je développe des projets Data Science complets — de la donnée brute au dashboard déployé — avec une attention particulière portée à l'interprétabilité, aux métriques et à l'impact métier.
+    </p>
+    <div class="stack reveal" aria-label="Stack technique">
+      <span class="pill">Python</span>
+      <span class="pill">scikit-learn</span>
+      <span class="pill">SQL</span>
+      <span class="pill">Streamlit</span>
+      <span class="pill">Power BI</span>
+      <span class="pill">AWS</span>
+    </div>
+    <div class="cta-row reveal">
+      <a class="btn btn-primary" href="#projects">Voir mes projets <svg class="arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+      <a class="btn btn-outline" href="#contact">Me contacter</a>
+    </div>
+  </div>
+</header>
+
+<!-- ===== ABOUT ===== -->
+<section id="about" aria-labelledby="about-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">01 — À propos</div>
+      <h2 class="section-title" id="about-title">Profil &amp; approche</h2>
+      <p class="section-sub">Du domaine métier au modèle déployé — comprendre avant de coder.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>Actuellement étudiant en <strong>Master IA &amp; Big Data à l'ESIEE-IT</strong>, je construis des projets orientés Data Science appliquée, Machine Learning et analyse métier.</p>
+        <p>Mon approche : <strong>comprendre le domaine métier avant de toucher au code</strong>. Mon parcours hybride — économie-gestion puis IA — me permet de vulgariser les résultats auprès de profils non techniques, tout en maintenant une rigueur analytique sur les métriques et les modèles.</p>
+        <p>Mon objectif est de transformer des données complexes en <strong>modèles interprétables</strong>, <strong>dashboards exploitables</strong> et recommandations utiles à la décision — dans des environnements à forte composante technique.</p>
+      </div>
+      <div class="metric-grid reveal">
+        <div class="metric">
+          <div class="metric-value">2</div>
+          <div class="metric-label">Dashboards interactifs déployés</div>
+        </div>
+        <div class="metric">
+          <div class="metric-value">9&nbsp;503</div>
+          <div class="metric-label">Vols analysés — Aviation Risk</div>
+        </div>
+        <div class="metric">
+          <div class="metric-value">100</div>
+          <div class="metric-label">Moteurs prédits — NASA CMAPSS</div>
+        </div>
+        <div class="metric">
+          <div class="metric-value">98,1&nbsp;%</div>
+          <div class="metric-label">Accord modèle vs règles physiques</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROJECTS ===== -->
+<section id="projects" aria-labelledby="projects-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">02 — Projets</div>
+      <h2 class="section-title" id="projects-title">Projets</h2>
+      <p class="section-sub">Deux projets construits de bout en bout — de la donnée brute au dashboard déployé.</p>
+    </div>
+
+    <!-- PROJET 1 — NASA CMAPSS -->
+    <article class="card project reveal" aria-labelledby="proj1-title">
+      <div class="project-visual">
+        <img src="assets/dashboard_overview.png" alt="Dashboard NASA CMAPSS — Trajectoires capteurs et top risque moteurs" style="width:100%;height:auto;display:block;border-radius:8px;border:1px solid #1E293B;" />
+      </div>
+
+      <div class="project-content">
+        <div class="project-badges">
+          <span class="badge badge-indigo">Maintenance Prédictive</span>
+        </div>
+        <h3 class="project-title" id="proj1-title">NASA CMAPSS — Prédiction de RUL</h3>
+        <p class="project-tagline">Prédire la durée de vie résiduelle de moteurs industriels à partir de signaux capteurs.</p>
+
+        <div class="tag-row">
+          <span class="tag">Python</span>
+          <span class="tag">pandas</span>
+          <span class="tag">scikit-learn</span>
+          <span class="tag">Random Forest</span>
+          <span class="tag">Feature Engineering</span>
+          <span class="tag">SQLite</span>
+          <span class="tag">Streamlit</span>
+          <span class="tag">Plotly</span>
+        </div>
+
+        <p class="project-desc">Projet Data Science de bout en bout sur le dataset <strong style="color:var(--text-primary);font-weight:500">NASA CMAPSS FD001</strong>. L'objectif est de prédire le Remaining Useful Life (RUL) d'un moteur industriel à partir de signaux capteurs, afin d'anticiper les risques de défaillance et de prioriser les interventions de maintenance.</p>
+
+        <ul class="bullets">
+          <li>Ingestion et structuration des données NASA CMAPSS FD001</li>
+          <li>EDA des 21 capteurs — suppression des 13 capteurs quasi-constants (std &lt; 0.5)</li>
+          <li>Feature engineering : rolling mean 5 cycles, delta cycle à cycle — 24 features retenues</li>
+          <li>Cap du RUL à 150 cycles (aligné sur la plage du test set NASA)</li>
+          <li>Modélisation : Ridge baseline → Random Forest Regressor</li>
+          <li>Évaluation : RMSE, MAE, NASA Score (métrique asymétrique PHM'08)</li>
+          <li>Classification des moteurs : Critique (≤30 cycles) · À surveiller (≤60) · Stable (&gt;60)</li>
+          <li>Dashboard Streamlit : vue opérationnelle, table de priorisation, analyse moteur</li>
+          <li>Couche analytique SQLite — requêtes métier réutilisables</li>
+        </ul>
+
+        <div class="project-metrics">
+          <div class="metric-tile highlight">
+            <div class="label">RMSE test</div>
+            <div class="value">23,16 cycles</div>
+          </div>
+          <div class="metric-tile">
+            <div class="label">MAE test</div>
+            <div class="value">16,72 cycles</div>
+          </div>
+          <div class="metric-tile">
+            <div class="label">NASA Score</div>
+            <div class="value">5&nbsp;331,90</div>
+          </div>
+          <div class="metric-tile">
+            <div class="label">Moteurs testés</div>
+            <div class="value">100</div>
+          </div>
+        </div>
+
+        <blockquote class="callout-impact">« Le projet simule un cas réel de maintenance prédictive industrielle : identifier les moteurs les plus à risque, prioriser les interventions et réduire le risque de panne non anticipée. »</blockquote>
+
+        <div class="project-actions">
+          <a class="btn btn-primary" href="https://nasa-cmapss-rul-prediction.streamlit.app/" target="_blank" rel="noopener">Dashboard Live <svg class="arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          <a class="btn btn-outline" href="https://github.com/yhakam/nasa-cmapss-rul-prediction" target="_blank" rel="noopener">GitHub <svg class="arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJET 2 — Aviation Risk -->
+    <article class="card project reveal" aria-labelledby="proj2-title">
+      <div class="project-visual">
+        <img src="assets/Aviation_Risk_Dashboard-1.png" alt="Dashboard Aviation Risk — Carte des vols, distribution de risque et accord Rule/ML" style="width:100%;height:auto;display:block;border-radius:8px;border:1px solid #1E293B;" />
+      </div>
+
+      <div class="project-content">
+        <div class="project-badges">
+          <span class="badge badge-cyan">Détection d'anomalies · Aviation</span>
+        </div>
+        <h3 class="project-title" id="proj2-title">Aviation Risk — Détection d'anomalies de vol</h3>
+        <p class="project-tagline">Score de risque explicable sur données de trafic aérien réel — OpenSky Network.</p>
+
+        <div class="tag-row">
+          <span class="tag">Python</span>
+          <span class="tag">OpenSky API</span>
+          <span class="tag">pandas</span>
+          <span class="tag">Isolation Forest</span>
+          <span class="tag">Risk Scoring</span>
+          <span class="tag">Streamlit</span>
+          <span class="tag">Plotly</span>
+        </div>
+
+        <p class="project-desc">Projet construit autour de données de vol temps réel issues de l'API <strong style="color:var(--text-primary);font-weight:500">OpenSky Network</strong>. L'objectif est d'analyser des signaux de vol — vitesse, altitude, taux vertical — pour produire un score de risque explicable de 0 à 100, basé sur des contraintes physiques du domaine aérien (enveloppes ICAO), puis de le valider par un benchmark Isolation Forest.</p>
+
+        <ul class="bullets">
+          <li>Récupération de données de vol via l'API OpenSky Network (temps réel)</li>
+          <li>Nettoyage : suppression des vols au sol, gestion des nulls, typage</li>
+          <li>Feature engineering : speed_kmh, altitude_diff, vertical_rate_abs, lat/lon bins</li>
+          <li>Score de risque explicable 0–100 basé sur 5 règles physiques pondérées (ICAO)
+            <ul>
+              <li>Vitesse anormale (&lt;100 ou &gt;1 200 km/h) — poids 25%</li>
+              <li>Altitude anormale (&lt;0m ou &gt;13 000m) — poids 25%</li>
+              <li>Taux vertical extrême (&gt;50 m/s) — poids 20%</li>
+              <li>Écart baro/géo élevé — poids 15%</li>
+              <li>Variation verticale forte — poids 15%</li>
+            </ul>
+          </li>
+          <li>Classification : LOW · MEDIUM · HIGH + justification lisible par vol</li>
+          <li>Benchmark Isolation Forest — entraîné sur signaux bruts, indépendant des règles</li>
+          <li>Dashboard interactif Streamlit : filtres, carte, distribution des risques</li>
+        </ul>
+
+        <div class="callout-result">
+          <div class="head"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 2l1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6z"/></svg>Résultat clé</div>
+          <strong style="color:#fff;font-weight:500">98,1 % d'accord</strong> entre le score rule-based et l'Isolation Forest sur <strong style="color:#fff;font-weight:500">9 503 vols</strong> analysés. Les 1,9 % de divergences constituent les cas les plus intéressants à investiguer.
+        </div>
+
+        <div class="project-metrics three">
+          <div class="metric-tile highlight">
+            <div class="label">Vols analysés</div>
+            <div class="value">9&nbsp;503</div>
+          </div>
+          <div class="metric-tile highlight">
+            <div class="label">Accord modèle / règles</div>
+            <div class="value">98,1&nbsp;%</div>
+          </div>
+          <div class="metric-tile">
+            <div class="label">Classes de risque</div>
+            <div class="value">3 · LOW · MED · HIGH</div>
+          </div>
+        </div>
+
+        <blockquote class="callout-impact">« Illustre comment transformer des données aériennes brutes en signaux exploitables pour la surveillance opérationnelle, la détection d'anomalies et l'aide à la décision. »</blockquote>
+
+        <div class="project-actions">
+          <a class="btn btn-primary" href="https://aviation-risk-v2.streamlit.app/" target="_blank" rel="noopener">Dashboard Live <svg class="arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          <a class="btn btn-outline" href="https://github.com/yhakam/Aviation-Risk-V2" target="_blank" rel="noopener">GitHub <svg class="arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ===== SKILLS ===== -->
+<section id="skills" aria-labelledby="skills-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">03 — Compétences</div>
+      <h2 class="section-title" id="skills-title">Stack &amp; compétences</h2>
+      <p class="section-sub">Outils, méthodes et savoir-faire mobilisés sur les projets.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="card skill-card reveal">
+        <h3>Langages</h3>
+        <ul class="skill-list">
+          <li>Python</li>
+          <li>SQL</li>
+          <li>R</li>
+        </ul>
+      </div>
+      <div class="card skill-card reveal">
+        <h3>Data Science / ML</h3>
+        <ul class="skill-list">
+          <li>pandas · NumPy</li>
+          <li>scikit-learn</li>
+          <li>Feature Engineering</li>
+          <li>Modélisation supervisée</li>
+          <li>Détection d'anomalies</li>
+          <li>Évaluation de modèles</li>
+        </ul>
+      </div>
+      <div class="card skill-card reveal">
+        <h3>Visualisation</h3>
+        <ul class="skill-list">
+          <li>Streamlit</li>
+          <li>Plotly</li>
+          <li>Matplotlib</li>
+          <li>Power BI</li>
+        </ul>
+      </div>
+      <div class="card skill-card reveal">
+        <h3>Data / Cloud</h3>
+        <ul class="skill-list">
+          <li>SQLite</li>
+          <li>Git / GitHub</li>
+          <li>VS Code</li>
+          <li>AWS S3</li>
+          <li>AWS SageMaker</li>
+        </ul>
+      </div>
+      <div class="card skill-card reveal">
+        <h3>Méthodologie</h3>
+        <ul class="skill-list">
+          <li>EDA · Preprocessing</li>
+          <li>Risk Scoring</li>
+          <li>Interprétabilité</li>
+          <li>Documentation</li>
+          <li>Communication</li>
+        </ul>
+      </div>
+      <div class="card skill-card reveal">
+        <h3>Soft skills</h3>
+        <ul class="skill-list">
+          <li>Approche bout en bout</li>
+          <li>Sens métier</li>
+          <li>Vulgarisation</li>
+          <li>Rigueur analytique</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== METHODOLOGY ===== -->
+<section id="methodology" aria-labelledby="meth-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">04 — Méthodologie</div>
+      <h2 class="section-title" id="meth-title">Ma façon de travailler</h2>
+      <p class="section-sub"><em>« Chaque projet est construit pour être compréhensible, reproductible et présentable à la fois à un profil technique et à un recruteur non technique. »</em></p>
+    </div>
+    <div class="timeline reveal" role="list">
+      <div class="step" role="listitem">
+        <div class="step-num">01</div>
+        <div class="step-label">Compréhension du problème métier</div>
+      </div>
+      <div class="step" role="listitem">
+        <div class="step-num">02</div>
+        <div class="step-label">Collecte ou ingestion des données</div>
+      </div>
+      <div class="step" role="listitem">
+        <div class="step-num">03</div>
+        <div class="step-label">Nettoyage et exploration (EDA)</div>
+      </div>
+      <div class="step" role="listitem">
+        <div class="step-num">04</div>
+        <div class="step-label">Feature engineering</div>
+      </div>
+      <div class="step" role="listitem">
+        <div class="step-num">05</div>
+        <div class="step-label">Modélisation ou scoring</div>
+      </div>
+      <div class="step" role="listitem">
+        <div class="step-num">06</div>
+        <div class="step-label">Évaluation avec métriques</div>
+      </div>
+      <div class="step" role="listitem">
+        <div class="step-num">07</div>
+        <div class="step-label">Dashboard interactif</div>
+      </div>
+      <div class="step" role="listitem">
+        <div class="step-num">08</div>
+        <div class="step-label">Documentation claire sur GitHub</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EDUCATION ===== -->
+<section id="education" aria-labelledby="edu-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">05 — Formation</div>
+      <h2 class="section-title" id="edu-title">Formation &amp; certifications</h2>
+      <p class="section-sub">Cursus actuel et parcours certifiant en progression.</p>
+    </div>
+    <div class="edu-grid">
+      <div class="card edu-card reveal">
+        <h3>Parcours académique</h3>
+        <div class="edu-item">
+          <div class="edu-logo">
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ESIEE-IT">
+  <rect width="40" height="40" rx="8" fill="#0A0D14"/>
+  <rect x="0.5" y="0.5" width="39" height="39" rx="7.5" fill="none" stroke="#22D3EE" stroke-opacity="0.35"/>
+  <path d="M5 13 H12 V8" fill="none" stroke="#22D3EE" stroke-opacity="0.25" stroke-width="0.8"/>
+  <path d="M35 27 H28 V32" fill="none" stroke="#22D3EE" stroke-opacity="0.25" stroke-width="0.8"/>
+  <circle cx="5" cy="13" r="0.9" fill="#22D3EE" fill-opacity="0.5"/>
+  <circle cx="35" cy="27" r="0.9" fill="#22D3EE" fill-opacity="0.5"/>
+  <rect x="11" y="11" width="18" height="2.2" fill="#22D3EE"/>
+  <rect x="11" y="11" width="2.4" height="18" fill="#22D3EE"/>
+  <rect x="11" y="18.9" width="13" height="2.2" fill="#22D3EE"/>
+  <rect x="11" y="26.8" width="18" height="2.2" fill="#22D3EE"/>
+  <circle cx="29" cy="20" r="1.3" fill="#22D3EE"/>
+</svg>
+          </div>
+          <div class="body">
+            <div class="name">Master IA &amp; Big Data</div>
+            <div class="meta">ESIEE-IT · Pontoise · à partir de septembre 2026</div>
+            <span class="edu-badge edu-status-prog">En cours</span>
+          </div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-logo">
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CY Cergy Paris Université">
+  <rect width="40" height="40" rx="8" fill="#0A0D14"/>
+  <rect x="0.5" y="0.5" width="39" height="39" rx="7.5" fill="none" stroke="#6366F1" stroke-opacity="0.45"/>
+  <text x="20" y="24" text-anchor="middle" font-family="DM Mono, monospace" font-size="14" font-weight="700" fill="#a5a8ff" letter-spacing="-0.5">CY</text>
+  <rect x="9" y="29" width="22" height="1.8" rx="0.9" fill="#6366F1" opacity="0.75"/>
+  <rect x="13" y="32.5" width="14" height="1.2" rx="0.6" fill="#6366F1" opacity="0.4"/>
+</svg>
+          </div>
+          <div class="body">
+            <div class="name">Licence Économie-Gestion</div>
+            <div class="meta">CY Cergy Paris Université · 2021–2025</div>
+            <span class="edu-badge edu-status-done">Obtenue</span>
+          </div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-logo">
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lycée Lyautey Casablanca">
+  <rect width="40" height="40" rx="8" fill="#0A0D14"/>
+  <rect x="0.5" y="0.5" width="39" height="39" rx="7.5" fill="none" stroke="#f59e0b" stroke-opacity="0.4"/>
+  <text x="20" y="24" text-anchor="middle" font-family="DM Mono, monospace" font-size="14" font-weight="700" fill="#f59e0b" letter-spacing="-0.5">LL</text>
+  <rect x="9" y="29" width="22" height="1.8" rx="0.9" fill="#f59e0b" opacity="0.75"/>
+  <rect x="13" y="32.5" width="14" height="1.2" rx="0.6" fill="#f59e0b" opacity="0.4"/>
+</svg>
+          </div>
+          <div class="body">
+            <div class="name">Baccalauréat Général</div>
+            <div class="meta">Lycée Lyautey · Casablanca · 2021</div>
+            <span class="edu-badge edu-status-done">Obtenu</span>
+          </div>
+        </div>
+      </div>
+      <div class="card edu-card reveal">
+        <h3>Certifications</h3>
+        <div class="edu-item">
+          <div class="edu-logo">
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="IBM Data Science Professional Certificate">
+  <rect width="40" height="40" rx="8" fill="#0A0D14"/>
+  <rect x="0.5" y="0.5" width="39" height="39" rx="7.5" fill="none" stroke="#22D3EE" stroke-opacity="0.4"/>
+  <rect x="9" y="22" width="3" height="9" fill="#22D3EE" opacity="0.45"/>
+  <rect x="14" y="17" width="3" height="14" fill="#22D3EE" opacity="0.7"/>
+  <rect x="19" y="13" width="3" height="18" fill="#22D3EE"/>
+  <rect x="24" y="19" width="3" height="12" fill="#22D3EE" opacity="0.55"/>
+  <rect x="29" y="10" width="3" height="21" fill="#22D3EE"/>
+  <line x1="8" y1="31.5" x2="32" y2="31.5" stroke="#22D3EE" stroke-opacity="0.5" stroke-width="0.6"/>
+  <text x="20" y="8.5" text-anchor="middle" font-family="DM Mono, monospace" font-size="5.8" font-weight="700" fill="#94A3B8" letter-spacing="2">DS</text>
+</svg>
+          </div>
+          <div class="body">
+            <div class="name">IBM Data Science Professional Certificate</div>
+            <div class="meta">IBM</div>
+            <span class="edu-badge edu-status-done">Obtenu</span>
+          </div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-logo">
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Imperial College London — Mathematics for ML">
+  <rect width="40" height="40" rx="8" fill="#0A0D14"/>
+  <rect x="0.5" y="0.5" width="39" height="39" rx="7.5" fill="none" stroke="#22D3EE" stroke-opacity="0.4"/>
+  <path d="M12 11 H28 L20 20 L28 29 H12" fill="none" stroke="#22D3EE" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="12" cy="11" r="0.9" fill="#22D3EE"/>
+  <circle cx="28" cy="29" r="0.9" fill="#22D3EE"/>
+  <text x="20" y="37" text-anchor="middle" font-family="DM Mono, monospace" font-size="5.2" fill="#94A3B8" letter-spacing="1.2">M4ML</text>
+</svg>
+          </div>
+          <div class="body">
+            <div class="name">Mathematics for Machine Learning</div>
+            <div class="meta">Imperial College London</div>
+            <span class="edu-badge edu-status-done">Obtenu</span>
+          </div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-logo">
+            <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AWS Certified Machine Learning Engineer — Associate">
+  <rect width="40" height="40" rx="8" fill="#0A0D14"/>
+  <rect x="0.5" y="0.5" width="39" height="39" rx="7.5" fill="none" stroke="#FF9900" stroke-opacity="0.45"/>
+  <text x="20" y="22" text-anchor="middle" font-family="DM Mono, monospace" font-size="10" font-weight="700" fill="#F1F5F9" letter-spacing="0.5">aws</text>
+  <path d="M9 28 Q20 33 31 28" fill="none" stroke="#FF9900" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M28.2 26.4 L31 28 L28.6 30.2" fill="none" stroke="#FF9900" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+          </div>
+          <div class="body">
+            <div class="name">AWS Certified Machine Learning Engineer — Associate</div>
+            <div class="meta">AWS</div>
+            <span class="edu-badge edu-status-target">Objectif</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact" aria-labelledby="contact-title">
+  <div class="container">
+    <div class="card contact-card reveal">
+      <div class="section-eyebrow" style="justify-content:center;">06 — Contact</div>
+      <h2 class="section-title" id="contact-title">Me contacter</h2>
+      <p class="section-sub">Ouvert aux opportunités en Data Science, Machine Learning, Data Analysis et projets IA appliqués.</p>
+      <div class="contact-links">
+        <a class="contact-link" href="mailto:yassinehakam@outlook.fr">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          yassinehakam@outlook.fr
+        </a>
+        <a class="contact-link" href="https://github.com/yhakam" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.19 1.18a11.1 11.1 0 0 1 5.81 0c2.22-1.49 3.19-1.18 3.19-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56C20.21 21.37 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5Z"/></svg>
+          github.com/yhakam
+        </a>
+        <a class="contact-link" href="https://www.linkedin.com/in/yhakam/" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+      <a class="btn btn-outline" href="https://drive.google.com/file/d/1DQ96p2uCYEFUBURJe_45-PIPwUPM0lEp/view?usp=sharing" target="_blank" rel="noopener" aria-label="Télécharger le CV (PDF)">Télécharger mon CV</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <p class="footer-text">© 2025 Yassine Hakam · Construit avec Python, curiosité et rigueur.</p>
+    <div class="footer-links">
+      <a href="https://github.com/yhakam" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/yhakam/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:yassinehakam@outlook.fr">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ===== TYPEWRITER ===== */
+(function () {
+  const target = document.getElementById('typewriter');
+  if (!target) return;
+  const text = 'Yassine Hakam';
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) { target.textContent = text; return; }
+  let i = 0;
+  target.textContent = '';
+  function tick() {
+    if (i <= text.length) {
+      target.textContent = text.slice(0, i);
+      i++;
+      const delay = 60 + Math.random() * 40;
+      setTimeout(tick, delay);
+    }
+  }
+  setTimeout(tick, 350);
+})();
+
+/* ===== INTERSECTION OBSERVER REVEAL (with fail-safes) ===== */
+(function () {
+  const els = document.querySelectorAll('.reveal');
+  if (!els.length) return;
+
+  function revealEl(el) {
+    if (el.classList.contains('in')) return;
+    const siblings = Array.from(el.parentElement.querySelectorAll(':scope > .reveal'));
+    const stagger = siblings.indexOf(el);
+    el.style.transitionDelay = (stagger >= 0 ? (stagger * 70) : 0) + 'ms';
+    el.classList.add('in');
+  }
+
+  // Always reveal above-the-fold content immediately on next frame —
+  // IntersectionObserver isn't reliable in embedded/iframe contexts.
+  function revealVisibleNow() {
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    els.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < vh) revealEl(el);
+    });
+  }
+  requestAnimationFrame(() => requestAnimationFrame(revealVisibleNow));
+  window.addEventListener('load', revealVisibleNow);
+
+  // Safety net: never let any .reveal stay invisible forever.
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.in)').forEach(revealEl);
+  }, 1500);
+
+  // Progressive reveal on scroll for the rest.
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          revealEl(entry.target);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -10% 0px' });
+    els.forEach(el => io.observe(el));
+  } else {
+    els.forEach(revealEl);
+  }
+})();
+
+/* ===== MOBILE NAV ===== */
+(function () {
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  if (!toggle || !links) return;
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+  });
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      links.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+})();
+
+/* ===== LAYOUT SWITCH (projets) removed — stacked permanent ===== */
+</script>
+</body>
+</html>
